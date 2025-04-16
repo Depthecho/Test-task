@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+  <form method="get" class="filter-form">
+      <input type="text" name="search" placeholder="Поиск..." value="{{ request.GET.search }}">
+      <select name="category">
+          <option value="">Все категории</option>
+          <option value="Одежда" {% if request.GET.category == 'Одежда' %}selected{% endif %}>Одежда</option>
+          <option value="Электроника" {% if request.GET.category == 'Электроника' %}selected{% endif %}>Электроника</option>
+      </select>
+<select name="condition">
+    <option value="">Любое состояние</option>
+    <option value="new" {% if request.GET.condition == 'new' %}selected{% endif %}>Новый</option>
+    <option value="used" {% if request.GET.condition == 'used' %}selected{% endif %}>Б/у</option>
+</select>
+      <button type="submit">Фильтровать</button>
+  </form>
+
+  <!-- Вывод объявлений -->
+  {% for ad in ads %}
+    <div>
+      <h3>{{ ad.title }}</h3>
+      <p>{{ ad.description }}</p>
+      <p>Категория: {{ ad.category }}</p>
+      <p>Состояние: {{ ad.condition }}</p>
+    </div>
+  {% empty %}
+    <p>Объявлений не найдено.</p>
+  {% endfor %}
+</body>
+</html>
