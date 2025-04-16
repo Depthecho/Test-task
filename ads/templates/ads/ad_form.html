@@ -1,10 +1,61 @@
+{% load static %}
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% if form.instance.pk %}Редактирование{% else %}Создание{% endif %} объявления</title>
+    <link rel="stylesheet" href="{% static 'style/ad_list.css' %}">
+    <link rel="stylesheet" href="{% static 'style/ad_form.css' %}">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
 </head>
 <body>
+    <header class="header">
+        <div class="container">
+            <h1 class="logo">{% if form.instance.pk %}Редактирование{% else %}Создание{% endif %} объявления</h1>
+            <nav class="nav">
+                <a href="{% url 'ad_list' %}" class="back-btn">Назад</a>
+                {% if user.is_authenticated %}
+                    <a href="{% url 'logout' %}" class="logout-btn">Выйти</a>
+                {% endif %}
+            </nav>
+        </div>
+    </header>
 
+    <main class="main">
+        <div class="container">
+            <form method="post" enctype="multipart/form-data" class="ad-form">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="{{ form.title.id_for_label }}">Название:</label>
+                    {{ form.title }}
+                </div>
+
+                <div class="form-group">
+                    <label for="{{ form.description.id_for_label }}">Описание:</label>
+                    {{ form.description }}
+                </div>
+
+                <div class="form-group">
+                    <label for="{{ form.category.id_for_label }}">Категория:</label>
+                    {{ form.category }}
+                </div>
+
+                <div class="form-group">
+                    <label for="{{ form.condition.id_for_label }}">Состояние:</label>
+                    {{ form.condition }}
+                </div>
+
+                <div class="form-group">
+                    <label for="{{ form.image_url.id_for_label }}">Ссылка на изображение:</label>
+                    {{ form.image_url }}
+                </div>
+
+                <button type="submit" class="submit-btn">
+                    {% if form.instance.pk %}Сохранить{% else %}Создать{% endif %}
+                </button>
+            </form>
+        </div>
+    </main>
 </body>
 </html>

@@ -19,6 +19,7 @@ class Ad(models.Model):
         return f'{self.title} ({self.user.username})'
 
 
+# models.py
 class ExchangeProposal(models.Model):
     STATUS_CHOICES = [
         ('pending', 'Ожидает'),
@@ -34,3 +35,9 @@ class ExchangeProposal(models.Model):
 
     def __str__(self):
         return f'{self.ad_sender} → {self.ad_receiver} [{self.status}]'
+
+    def is_accepted(self):
+        return self.status == 'accepted'
+
+    def is_rejected(self):
+        return self.status == 'rejected'

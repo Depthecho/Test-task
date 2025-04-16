@@ -1,0 +1,179 @@
+/* ad_form.css - Стили для формы создания/редактирования объявлений */
+
+/* Основные стили */
+body {
+    font-family: 'Roboto', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #DAEBE3;
+    color: #657166;
+    line-height: 1.6;
+}
+
+.container {
+    width: 90%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* Шапка */
+.header {
+    background-color: #99CDD8;
+    padding: 20px;
+    border-radius: 8px;
+    margin-bottom: 30px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    margin: 0;
+    color: white;
+    font-weight: 700;
+    font-size: 2rem;
+}
+
+.nav {
+    display: flex;
+    gap: 15px;
+}
+
+/* Кнопки */
+.btn {
+    padding: 8px 15px;
+    border-radius: 4px;
+    text-decoration: none;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.back-btn {
+    background-color: #CFD6C4;
+    color: #657166;
+}
+
+.back-btn:hover {
+    background-color: #bdc7b3;
+    transform: translateY(-2px);
+}
+
+.logout-btn {
+    background-color: #F3C3B2;
+    color: #657166;
+}
+
+.logout-btn:hover {
+    background-color: #f2b4a0;
+    transform: translateY(-2px);
+}
+
+/* Основное содержимое */
+.main {
+    background-color: white;
+    border-radius: 8px;
+    padding: 30px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+}
+
+/* Форма */
+.ad-form {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.form-group {
+    margin-bottom: 25px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 500;
+    color: #657166;
+    font-size: 16px;
+}
+
+.form-control {
+    width: 100%;
+    padding: 12px;
+    border: 2px solid #CFD6C4;
+    border-radius: 6px;
+    font-size: 16px;
+    background-color: white;
+    transition: border-color 0.3s ease;
+}
+
+.form-control:focus {
+    border-color: #99CDD8;
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(153, 205, 216, 0.2);
+}
+
+textarea.form-control {
+    min-height: 150px;
+    resize: vertical;
+}
+
+/* Кнопка отправки */
+.submit-btn {
+    background-color: #99CDD8;
+    color: white;
+    padding: 12px 25px;
+    font-size: 16px;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: inline-block;
+    margin-top: 10px;
+}
+
+.submit-btn:hover {
+    background-color: #88bcc7;
+    transform: translateY(-2px);
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+/* Сообщения об ошибках */
+.errorlist {
+    color: #F3C3B2;
+    margin-top: 5px;
+    padding-left: 20px;
+}
+
+.errorlist li {
+    margin-bottom: 5px;
+}
+
+/* Адаптивность */
+@media (max-width: 768px) {
+    .container {
+        width: 95%;
+        padding: 10px;
+    }
+
+    .header {
+        flex-direction: column;
+        gap: 15px;
+        text-align: center;
+    }
+
+    .nav {
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+
+    .main {
+        padding: 20px;
+    }
+
+    .form-group {
+        margin-bottom: 20px;
+    }
+}
