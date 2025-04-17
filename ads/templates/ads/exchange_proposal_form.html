@@ -16,26 +16,27 @@
 
         <main class="main-content">
             <div class="exchange-form-container">
-                <h2 class="form-title">Создание предложения обмена для: <span>{{ ad_sender.title }}</span></h2>
+                <h2 class="form-title">Выберите своё объявление для обмена на: <span>{{ ad_receiver.title }}</span></h2>
 
-                <form method="post" class="exchange-form">
-                    {% csrf_token %}
-                    <div class="form-group">
-                        <label for="ad_receiver_id" class="form-label">Выберите объявление для обмена:</label>
-                        <select name="ad_receiver_id" class="form-select" required>
-                            {% for ad in ads %}
-                                <option value="{{ ad.id }}">{{ ad.title }}</option>
-                            {% endfor %}
-                        </select>
-                    </div>
+<form method="post" class="exchange-form">
+    {% csrf_token %}
+    <div class="form-group">
+        <label for="ad_sender_id" class="form-label">Ваше объявление:</label>
+        <select name="ad_sender_id" class="form-select" required>
+            {% for ad in ads %}
+                <option value="{{ ad.id }}">{{ ad.title }}</option>
+            {% endfor %}
+        </select>
+    </div>
 
-                    <div class="form-group">
-                        <label for="comment" class="form-label">Комментарий:</label>
-                        <textarea name="comment" rows="4" class="form-textarea" required></textarea>
-                    </div>
+    <div class="form-group">
+        <label for="comment" class="form-label">Комментарий:</label>
+        <textarea name="comment" rows="4" class="form-textarea" required></textarea>
+    </div>
 
-                    <button type="submit" class="submit-btn">Отправить предложение</button>
-                </form>
+    <button type="submit" class="submit-btn">Отправить предложение</button>
+</form>
+
             </div>
         </main>
     </div>

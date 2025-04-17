@@ -1,25 +1,28 @@
 from django.contrib.auth import login, logout, authenticate
-from django.contrib.auth.forms import UserCreationForm
 from django.contrib import messages
+from .forms import CustomUserCreationForm
 
 class AuthService:
     @staticmethod
-    def register_user(request, form_data=None):
+    def register_user(request):
         if request.method == 'POST':
-            form = UserCreationForm(form_data or request.POST)
+            form = CustomUserCreationForm(request.POST)
             if form.is_valid():
                 user = form.save()
                 login(request, user)
                 messages.success(request, 'Аккаунт успешно создан!')
-                return True
+                return True, form
             messages.error(request, 'Ошибка при регистрации!')
-        return False
+            return False, form
+        else:
+            form = CustomUserCreationForm()
+            return None, form
 
     @staticmethod
-    def login_user(request, username=None, password=None):
+    def login_user(request):
         if request.method == 'POST':
-            username = username or request.POST.get('username')
-            password = password or request.POST.get('password')
+            username = request.POST.get('username')
+            password = request.POST.get('password')
             user = authenticate(request, username=username, password=password)
             if user is not None:
                 login(request, user)

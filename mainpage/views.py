@@ -1,4 +1,3 @@
-from django.contrib.auth.forms import UserCreationForm
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from .services import AuthService
@@ -6,14 +5,10 @@ from .services import AuthService
 
 def register_view(request):
     auth_service = AuthService()
-    result = auth_service.register_user(request)
+    result, form = auth_service.register_user(request)
 
     if result is True:
         return redirect('ad_list')
-    elif result is False:
-        form = UserCreationForm(request.POST)
-    else:
-        form = UserCreationForm()
 
     return render(request, 'mainpage/register.html', {'form': form})
 
@@ -24,6 +19,7 @@ def login_view(request):
 
     if result is True:
         return redirect('ad_list')
+
     return render(request, 'mainpage/login.html')
 
 

@@ -10,7 +10,7 @@ class Ad(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='ads')
     title = models.CharField(max_length=255)
     description = models.TextField()
-    image_url = models.URLField(blank=True, null=True)
+    image = models.ImageField(upload_to='ads_images/', blank=True, null=True)
     category = models.CharField(max_length=100)
     condition = models.CharField(max_length=10, choices=CONDITION_CHOICES)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -18,8 +18,6 @@ class Ad(models.Model):
     def __str__(self):
         return f'{self.title} ({self.user.username})'
 
-
-# models.py
 class ExchangeProposal(models.Model):
     STATUS_CHOICES = [
         ('pending', 'Ожидает'),

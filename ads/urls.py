@@ -4,6 +4,7 @@ from . import views
 urlpatterns = [
     path('', views.ad_list, name='ad_list'),
 
+    path('<int:ad_id>/', views.ad_detail, name='ad_detail'),
     path('create/', views.ad_create, name='ad_create'),
     path('edit/<int:ad_id>/', views.ad_edit, name='ad_edit'),
     path('delete/<int:ad_id>/', views.ad_delete, name='ad_delete'),

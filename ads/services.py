@@ -35,3 +35,14 @@ def filter_ads(query_params):
         ads = ads.filter(condition=condition)
 
     return ads.order_by('-created_at')
+
+def accept_exchange_and_delete_ads(proposal, current_user):
+    if proposal.ad_receiver.user != current_user:
+        return False
+
+    proposal.status = 'accepted'
+    proposal.save()
+
+    proposal.ad_sender.delete()
+    proposal.ad_receiver.delete()
+    return True

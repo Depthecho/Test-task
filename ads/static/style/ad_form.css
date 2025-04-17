@@ -54,8 +54,10 @@ body {
 }
 
 .back-btn {
+    padding: 8px 15px;
     background-color: #CFD6C4;
     color: #657166;
+    text-decoration: none;
 }
 
 .back-btn:hover {

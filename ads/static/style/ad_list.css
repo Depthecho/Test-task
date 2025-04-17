@@ -49,6 +49,42 @@ body {
     transform: translateY(-2px);
 }
 
+.login-btn {
+    background-color: #F3C3B2;
+    color: #657166;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 4px;
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 16px;
+    transition: all 0.3s ease;
+}
+
+.login-btn:hover {
+    background-color: #f2b4a0;
+    transform: translateY(-2px);
+}
+
+.exchange-nav-btn {
+    background-color: #CFD6C4;
+    color: #657166;
+    padding: 10px 20px;
+    border-radius: 6px;
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 16px;
+    margin-right: 15px;
+    transition: all 0.3s ease;
+}
+
+.exchange-nav-btn:hover {
+    background-color: #bdc7b3;
+    transform: translateY(-2px);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+
 /* Форма фильтрации */
 .filter-form {
     background-color: #FDE8D3;
@@ -241,4 +277,12 @@ body {
 
 .delete-btn:hover {
     background-color: #f2b4a0;
+}
+
+a {
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: none;
 }

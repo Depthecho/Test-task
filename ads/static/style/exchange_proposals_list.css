@@ -143,3 +143,24 @@ body {
     background-color: #FDE8D3;
     border-radius: 8px;
 }
+
+.header-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.back-to-ads-btn {
+    background-color: #f5b800;
+    padding: 10px 16px;
+    border-radius: 8px;
+    color: black;
+    font-weight: 500;
+    text-decoration: none;
+    transition: 0.2s ease-in-out;
+}
+
+.back-to-ads-btn:hover {
+    background-color: #e0a800;
+    color: white;
+}

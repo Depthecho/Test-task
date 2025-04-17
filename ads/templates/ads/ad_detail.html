@@ -1,0 +1,31 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ ad.title }}</title>
+    <link rel="stylesheet" href="{% static 'style/ad_detail.css' %}">
+</head>
+<body>
+    <div class="container">
+        <h1>{{ ad.title }}</h1>
+
+        <p><strong>Описание:</strong> {{ ad.description }}</p>
+        <p><strong>Категория:</strong> {{ ad.category }}</p>
+        <p><strong>Состояние:</strong> {{ ad.get_condition_display }}</p>
+
+        {% if ad.image %}
+            <img src="{{ ad.image.url }}" alt="{{ ad.title }}" class="ad-image">
+        {% endif %}
+
+        <p><strong>Опубликовано:</strong> {{ ad.created_at }}</p>
+        <p><strong>Пользователь:</strong> {{ ad.user.username }}</p>
+
+        {% if user.is_authenticated and ad.user != user %}
+            <a href="{% url 'create_exchange_proposal' ad.id %}" class="exchange-btn">Предложить обмен</a>
+        {% endif %}
+
+        <a href="{% url 'ad_list' %}" class="back-btn">Назад к объявлениям</a>
+    </div>
+</body>
+</html>

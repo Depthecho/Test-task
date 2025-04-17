@@ -11,7 +11,10 @@
 <body>
     <div class="container">
         <header class="header">
-            <h1 class="logo">Мои предложения</h1>
+            <div class="header-top">
+                <h1 class="logo">Мои предложения</h1>
+                <a href="{% url 'ad_list' %}" class="back-to-ads-btn">Вернуться к объявлениям</a>
+            </div>
         </header>
 
         <main class="main-content">

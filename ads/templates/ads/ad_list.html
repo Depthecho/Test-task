@@ -15,7 +15,10 @@
         <nav class="nav">
             {% if user.is_authenticated %}
                 <a href="{% url 'ad_create' %}" class="create-btn">Добавить объявление</a>
+                <a href="{% url 'exchange_proposals_list' %}" class="exchange-nav-btn">Обмены</a>
                 <a href="{% url 'logout' %}" class="logout-btn">Выйти</a>
+            {% else %}
+                <a href="{% url 'login' %}" class="login-btn">Войти</a>
             {% endif %}
         </nav>
     </div>
@@ -55,7 +58,9 @@
             <div class="ads-grid">
                 {% for ad in other_ads %}
                     <div class="ad-card">
-                        <h3 class="ad-title">{{ ad.title }}</h3>
+                        <a href="{% url 'ad_detail' ad.id %}">
+                            <h3 class="ad-title">{{ ad.title }}</h3>
+                        </a>
                         <p class="ad-description">{{ ad.description }}</p>
                         <div class="ad-meta">
                             <span class="ad-category">{{ ad.category }}</span>
@@ -75,27 +80,29 @@
         <div class="divider"></div>
 
         <!-- Мои объявления -->
-        <section class="ads-section">
-            <h2 class="section-title">Мои объявления</h2>
-            <div class="ads-grid">
-                {% for ad in user_ads %}
-                    <div class="ad-card my-ad">
-                        <h3 class="ad-title">{{ ad.title }}</h3>
-                        <p class="ad-description">{{ ad.description }}</p>
-                        <div class="ad-meta">
-                            <span class="ad-category">{{ ad.category }}</span>
-                            <span class="ad-condition">{{ ad.get_condition_display }}</span>
-                        </div>
-                        <div class="ad-actions">
-                            <a href="{% url 'ad_edit' ad.id %}" class="edit-btn">Редактировать</a>
-                            <a href="{% url 'ad_delete' ad.id %}" class="delete-btn">Удалить</a>
-                        </div>
-                    </div>
-                {% empty %}
-                    <p class="no-ads">У вас нет объявлений.</p>
-                {% endfor %}
+       <section class="ads-section">
+    <h2 class="section-title">Мои объявления</h2>
+    <div class="ads-grid">
+        {% for ad in user_ads %}
+            <div class="ad-card my-ad">
+                <a href="{% url 'ad_detail' ad.id %}">
+                    <h3 class="ad-title">{{ ad.title }}</h3>
+                </a>
+                <p class="ad-description">{{ ad.description }}</p>
+                <div class="ad-meta">
+                    <span class="ad-category">{{ ad.category }}</span>
+                    <span class="ad-condition">{{ ad.get_condition_display }}</span>
+                </div>
+                <div class="ad-actions">
+                    <a href="{% url 'ad_edit' ad.id %}" class="edit-btn">Редактировать</a>
+                    <a href="{% url 'ad_delete' ad.id %}" class="delete-btn">Удалить</a>
+                </div>
             </div>
-        </section>
+        {% empty %}
+            <p class="no-ads">У вас нет объявлений.</p>
+        {% endfor %}
+    </div>
+</section>
     </div>
 </main>
 </body>

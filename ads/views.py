@@ -9,7 +9,6 @@ from .models import Ad, ExchangeProposal
 from . import services
 
 @login_required
-@login_required
 def ad_create(request):
     if request.method == 'POST':
         form = AdForm(request.POST, request.FILES)
@@ -60,16 +59,26 @@ def ad_list(request):
         'conditions': conditions
     })
 
+def ad_detail(request, ad_id):
+    ad = get_object_or_404(Ad, pk=ad_id)
+    return render(request, 'ads/ad_detail.html', {'ad': ad})
+
 @login_required
 def create_exchange_proposal(request, ad_id):
-    ad_sender = get_object_or_404(Ad, pk=ad_id)
+    ad_receiver = get_object_or_404(Ad, pk=ad_id)
+
+    if ad_receiver.user == request.user:
+        return render(request, 'ads/forbidden.html')
 
     if request.method == 'POST':
-        ad_receiver_id = request.POST.get('ad_receiver_id')
+        ad_sender_id = request.POST.get('ad_sender_id')
         comment = request.POST.get('comment')
-        ad_receiver = get_object_or_404(Ad, pk=ad_receiver_id)
+        ad_sender = get_object_or_404(Ad, pk=ad_sender_id)
 
-        exchange_proposal = ExchangeProposal.objects.create(
+        if ad_sender.user != request.user:
+            return render(request, 'ads/forbidden.html')
+
+        ExchangeProposal.objects.create(
             ad_sender=ad_sender,
             ad_receiver=ad_receiver,
             comment=comment
@@ -77,8 +86,17 @@ def create_exchange_proposal(request, ad_id):
 
         return redirect('ad_list')
 
-    ads = Ad.objects.exclude(id=ad_sender.id)
-    return render(request, 'ads/exchange_proposal_form.html', {'ad_sender': ad_sender, 'ads': ads})
+    user_ads = Ad.objects.filter(user=request.user)
+    return render(request, 'ads/exchange_proposal_form.html', {
+        'ad_receiver': ad_receiver,
+        'ads': user_ads
+    })
+
+    user_ads = Ad.objects.filter(user=request.user).exclude(id=ad_sender.id)
+    return render(request, 'ads/exchange_proposal_form.html', {
+        'ad_sender': ad_sender,
+        'ads': user_ads
+    })
 
 
 @login_required
@@ -99,9 +117,11 @@ def exchange_proposals_list(request):
 def accept_exchange_proposal(request, proposal_id):
     proposal = get_object_or_404(ExchangeProposal, pk=proposal_id)
 
-    if proposal.ad_receiver.user == request.user:
-        proposal.status = 'accepted'
-        proposal.save()
+    success = services.accept_exchange_and_delete_ads(proposal, request.user)
+
+    if not success:
+        return render(request, 'ads/forbidden.html')
+
     return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
 
 
