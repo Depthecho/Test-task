@@ -1,15 +1,14 @@
-from django.contrib.auth import login, authenticate, logout
-from django.contrib.auth.forms import UserCreationForm
-from django.core.checks import messages
-from django.http import HttpResponseRedirect
-from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
+from django.shortcuts import render, redirect, get_object_or_404
+from django.http import HttpResponseRedirect
 from .forms import AdForm
 from .models import Ad, ExchangeProposal
 from . import services
 
+
 @login_required
 def ad_create(request):
+    # Создание объявления.
     if request.method == 'POST':
         form = AdForm(request.POST, request.FILES)
         if form.is_valid():
@@ -24,6 +23,7 @@ def ad_create(request):
 
 @login_required
 def ad_edit(request, ad_id):
+    # Редактирование объявления владельцем.
     ad = services.get_user_ad_or_404(ad_id, request.user)
     if ad is None:
         return render(request, 'ads/forbidden.html')
@@ -38,6 +38,7 @@ def ad_edit(request, ad_id):
 
 @login_required
 def ad_delete(request, ad_id):
+    # Удаление объявления владельцем.
     ad = services.get_user_ad_or_404(ad_id, request.user)
     if ad:
         services.delete_ad(ad)
@@ -45,6 +46,7 @@ def ad_delete(request, ad_id):
 
 
 def ad_list(request):
+    # Просмотр списка объявлений.
     all_ads = services.filter_ads(request.GET)
     user_ads = all_ads.filter(user=request.user) if request.user.is_authenticated else Ad.objects.none()
     other_ads = all_ads.exclude(user=request.user) if request.user.is_authenticated else all_ads
@@ -59,12 +61,16 @@ def ad_list(request):
         'conditions': conditions
     })
 
+
 def ad_detail(request, ad_id):
+    # Детали объявления.
     ad = get_object_or_404(Ad, pk=ad_id)
     return render(request, 'ads/ad_detail.html', {'ad': ad})
 
+
 @login_required
 def create_exchange_proposal(request, ad_id):
+    # Создание предложения обмена.
     ad_receiver = get_object_or_404(Ad, pk=ad_id)
 
     if ad_receiver.user == request.user:
@@ -92,19 +98,12 @@ def create_exchange_proposal(request, ad_id):
         'ads': user_ads
     })
 
-    user_ads = Ad.objects.filter(user=request.user).exclude(id=ad_sender.id)
-    return render(request, 'ads/exchange_proposal_form.html', {
-        'ad_sender': ad_sender,
-        'ads': user_ads
-    })
-
 
 @login_required
 def exchange_proposals_list(request):
+    # Просмотр предложений обмена.
     user_ads = request.user.ads.all()
-
     sent_proposals = ExchangeProposal.objects.filter(ad_sender__in=user_ads)
-
     received_proposals = ExchangeProposal.objects.filter(ad_receiver__in=user_ads)
 
     return render(request, 'ads/exchange_proposals_list.html', {
@@ -116,7 +115,6 @@ def exchange_proposals_list(request):
 @login_required
 def accept_exchange_proposal(request, proposal_id):
     proposal = get_object_or_404(ExchangeProposal, pk=proposal_id)
-
     success = services.accept_exchange_and_delete_ads(proposal, request.user)
 
     if not success:
@@ -132,4 +130,5 @@ def reject_exchange_proposal(request, proposal_id):
     if proposal.ad_receiver.user == request.user:
         proposal.status = 'rejected'
         proposal.save()
+
     return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))

@@ -1,6 +1,7 @@
 from django import forms
 from .models import Ad, ExchangeProposal
 
+# Форма для объявления
 class AdForm(forms.ModelForm):
     class Meta:
         model = Ad
@@ -9,6 +10,7 @@ class AdForm(forms.ModelForm):
             'description': forms.Textarea(attrs={'rows': 4}),
         }
 
+# Форма для предложения обмена
 class ExchangeProposalForm(forms.ModelForm):
     class Meta:
         model = ExchangeProposal

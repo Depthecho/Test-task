@@ -1,0 +1,64 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Добро пожаловать</title>
+    <link rel="stylesheet" href="{% static 'style/home.css' %}">
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <h1 class="logo">Платформа обмена</h1>
+            <nav class="nav">
+                <a class="exchange-nav-btn" href="{% url 'ad_list' %}">Объявления</a>
+                {% if user.is_authenticated %}
+                    <a class="logout-btn" href="{% url 'logout' %}">Выйти</a>
+                {% else %}
+                    <a class="login-btn" href="{% url 'login' %}">Войти</a>
+                    <a class="login-btn" href="{% url 'register' %}">Регистрация</a>
+                {% endif %}
+            </nav>
+        </div>
+    </header>
+
+    <main class="main-content container">
+        <section class="intro">
+            <h2 class="section-title">Что вы можете делать?</h2>
+            <ul>
+                <li>Размещать и редактировать свои объявления</li>
+                <li>Находить подходящие предложения обмена</li>
+                <li>Следить за статусом сделок</li>
+            </ul>
+        </section>
+
+        <div class="divider"></div>
+
+        <section class="info-block">
+            <h2 class="section-title">Почему именно мы?</h2>
+            <ul>
+                <li>Удобный и понятный интерфейс</li>
+                <li>Быстрая регистрация</li>
+                <li>Фокус на обмен, а не на продажу</li>
+                <li>Полностью бесплатный сервис</li>
+            </ul>
+        </section>
+
+        <div class="divider"></div>
+
+        {% if not user.is_authenticated %}
+            <section class="info-block">
+                <h2 class="section-title">Начните прямо сейчас</h2>
+                <p>Создайте аккаунт, разместите своё первое объявление и найдите то, что нужно именно вам!</p>
+                <a class="create-btn" href="{% url 'register' %}">Присоединиться</a>
+            </section>
+        {% else %}
+            <section class="info-block">
+                <h2 class="section-title">Готовы к обмену?</h2>
+                <p>Перейдите к своим объявлениям и найдите подходящие предложения обмена.</p>
+                <a class="create-btn" href="{% url 'ad_list' %}">Мои объявления</a>
+            </section>
+        {% endif %}
+    </main>
+</body>
+</html>

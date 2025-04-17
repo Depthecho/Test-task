@@ -151,7 +151,7 @@ body {
 }
 
 .back-to-ads-btn {
-    background-color: #f5b800;
+    background-color: #FDE8D3;
     padding: 10px 16px;
     border-radius: 8px;
     color: black;
@@ -161,6 +161,6 @@ body {
 }
 
 .back-to-ads-btn:hover {
-    background-color: #e0a800;
+    background-color: #F3C3B2;
     color: white;
 }

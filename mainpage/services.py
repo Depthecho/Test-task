@@ -2,9 +2,13 @@ from django.contrib.auth import login, logout, authenticate
 from django.contrib import messages
 from .forms import CustomUserCreationForm
 
+
 class AuthService:
+    # Сервис для аутентификации пользователей: регистрация, вход, выход.
+
     @staticmethod
     def register_user(request):
+        # Регистрация пользователя и вход в систему.
         if request.method == 'POST':
             form = CustomUserCreationForm(request.POST)
             if form.is_valid():
@@ -20,6 +24,7 @@ class AuthService:
 
     @staticmethod
     def login_user(request):
+        # Авторизация пользователя.
         if request.method == 'POST':
             username = request.POST.get('username')
             password = request.POST.get('password')
@@ -32,5 +37,6 @@ class AuthService:
 
     @staticmethod
     def logout_user(request):
+        # Выход пользователя из системы.
         logout(request)
         return True
